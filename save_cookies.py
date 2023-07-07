@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium_recaptcha_solver import RecaptchaSolver
 import pickle
 import time
-from auth_data import user1
+from auth_data import user
 
 # Установив пользовательский агент для имитации мобильных устройств
 user_agent = (
@@ -15,32 +15,25 @@ user_agent = (
 
 def save_coomies():
     try:
-        # запускаем браузер и переходим на страницу авторизации Яндекс.Маркета
+        # запускаем браузер и переходим на страницу авторизации
         options = webdriver.ChromeOptions()
         options.add_argument("start-maximized")
-        # options.add_argument("--user-data-dir=chrome-data")
-        options.add_argument('- disable-gpu')
         options.add_argument('user-agent=%s' % user_agent)
         driver = webdriver.Chrome(options=options)
-        solver = RecaptchaSolver(driver=driver)
+        # solver = RecaptchaSolver(driver=driver)
         driver.implicitly_wait(5)
-        driver.get("https://market.yandex.ru/")
-        # находим ссылку на страницу авторизации и кликаем на нее
-        login_link = driver.find_element(By.XPATH, "//a[@headernav='HeaderNav']")
         time.sleep(2)
-        login_link.click()
-        time.sleep(2)
+        driver.get("https://pocket-link.co/ru/login")
         # заполняем форму авторизации
         # вводим логин
-        mail = driver.find_element(By.XPATH, "//button[@class='Button2 Button2_checked Button2_size_l Button2_view_default']")
-        mail.click()
-        driver.find_element(By.NAME, "login").send_keys(user1["email"] + Keys.ENTER)
+
+        driver.find_element(By.NAME, "email").send_keys(user[0]["email"] + Keys.ENTER)
         time.sleep(2)
-        driver.find_element(By.NAME, "passwd").send_keys(user1["password"] + Keys.ENTER)
+        driver.find_element(By.NAME, "password").send_keys(user[0]["password"] + Keys.ENTER)
         time.sleep(1)
         # cookies
-        pickle.dump(driver.get_cookies(), open(f"{user1['email']}_cookies", "wb"))
-        print(f"Создан файл {user1['email']}_cookies")
+        pickle.dump(driver.get_cookies(), open(f"{user[0]['email']}_cookies", "wb"))
+        print(f"Создан файл {user[0]['email']}_cookies")
 
     except Exception as ex:
         print(ex)

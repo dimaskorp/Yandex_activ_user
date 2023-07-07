@@ -1,7 +1,6 @@
-
-user1 = [
+user = [
     {"email":
-         "lpl82@pochtao.ru",
+         "dima-skorp@mail.ru",
      "password":
-         "dd709b98c"}
+         "A2f8dedd69aq2a!"}
 ]
